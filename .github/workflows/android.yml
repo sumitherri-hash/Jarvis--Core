@@ -23,7 +23,14 @@ jobs:
       - name: Setup Android
         uses: android-actions/setup-android@v3
 
-      - name: Check project
+      - name: Build APK
+        working-directory: android
         run: |
-          echo "JARVIS Android build system ready"
-          find android -maxdepth 3 -type f | sort || true
+          chmod +x gradlew
+          ./gradlew assembleDebug
+
+      - name: Upload APK
+        uses: actions/upload-artifact@v4
+        with:
+          name: JARVIS-debug
+          path: android/app/build/outputs/apk/debug/app-debug.apk
